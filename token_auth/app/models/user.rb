@@ -4,8 +4,8 @@ class User < ApplicationRecord
 
   before_validation :downcase_email
 
-  validates :password_confirmation, presence: true
-  validates :password, confirmation: true, presence: true
+  validates :password_confirmation, presence: true, on: :create
+  validates :password, confirmation: true, presence: true, on: :create
 
   validates :email,
   presence: true,
