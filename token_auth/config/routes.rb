@@ -5,4 +5,9 @@ get "/users/validate", to: "users#validate"
 post "/users", to: "users#create"
 post "/login", to: "sessions#create"
 
+get "/movies/:zip/:date" => "movies#movies", :as => :show_movies
+get "/tv" => "movies#tv", :as => :show_tv
+
+post "/save/:user_id" => "movies#save", :as => :save_item
+
 end
