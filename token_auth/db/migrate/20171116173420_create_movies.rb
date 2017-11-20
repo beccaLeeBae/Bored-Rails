@@ -3,6 +3,7 @@ class CreateMovies < ActiveRecord::Migration[5.1]
     create_table :movies do |t|
       t.string :medium
       t.string :title
+      t.belongs_to :user
 
       t.timestamps
     end

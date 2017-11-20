@@ -15,8 +15,10 @@ ActiveRecord::Schema.define(version: 20171116173420) do
   create_table "movies", force: :cascade do |t|
     t.string "medium"
     t.string "title"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_movies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
