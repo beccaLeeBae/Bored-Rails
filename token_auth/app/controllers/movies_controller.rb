@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
 def movies
 	zip = params[:zip]
 	date = params[:date]
-	url = "http://data.tmsapi.com/v1.1/movies/showings?startDate=#{date}&zip=#{zip}&radius=5&api_key=#{ENV['TMSKEY2']}"
+	url = "http://data.tmsapi.com/v1.1/movies/showings?startDate=#{date}&zip=#{zip}&radius=5&api_key=#{ENV['TMSKEY']}"
 	movie_results = HTTParty.get(url)
 	parsed_results = JSON.parse(movie_results.body)
 	render json: parsed_results
@@ -47,10 +47,26 @@ end
    @movie = Movie.new(movie_params)
    if @movie.valid?
      	@movie.save
-      redirect_to @movie
+      render json: {success: true}
    else
-      puts "Movie cannot be saved"
+      render json: {success: false}
   end
+end
+
+def saved
+	movie_medium = params[:medium]
+	id = params[:id]
+	movie = Movie.where(medium: movie_medium, user_id: id).pluck(:title).uniq
+	total_times = Movie.where(user_id: id).pluck(:title).uniq
+	movie_length = movie.length
+	times_length = total_times.length
+	tv_length = times_length - movie_length
+	puts movie_length
+	render json: {
+		movie_length: movie_length,
+		tv_length: tv_length,
+		total_times: times_length
+	}
 end
 
 private
@@ -61,7 +77,7 @@ def set_user
 end
 
 def movie_params
-	params.require(:movie).permit(:medium, :title, :user_id)
+	params.permit(:medium, :title, :user_id)
 end
 
 end

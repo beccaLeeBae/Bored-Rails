@@ -13,6 +13,8 @@ get "/next/:title" => "movies#next_episode", :as => :show_next_episode
 
 get "/weather/:zip" => "movies#weather", :as => :show_weather
 
+get "/saved/:id/:medium" => "movies#saved", :as => :show_saved
+
 post "/save", to: "movies#save"
 
 end
