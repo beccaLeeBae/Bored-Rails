@@ -11,6 +11,15 @@ def movies
 	render json: parsed_results
 end
 
+def images
+	title = params[:title]
+	url = "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['MDBKEY']}&language=en-US&query=#{title}"
+	image_results = HTTParty.get(url)
+	parsed_results = JSON.parse(image_results.body)
+	render json: parsed_results
+end
+
+
 def food
 	zip = params[:zip]
 	meal = params[:meal]
@@ -42,6 +51,15 @@ def weather
 	parsed_results = JSON.parse(weather_results.body)
 	render json: parsed_results
 end
+
+	def weatherByName
+		city = params[:city]
+		country = params[:country]
+		url = "http://api.openweathermap.org/data/2.5/weather?q=#{city},#{country},us&APPID=#{ENV['OWKEY']}&units=imperial"
+		weather_results = HTTParty.get(url)
+		parsed_results = JSON.parse(weather_results.body)
+		render json: parsed_results
+	end
 
  def save
    @movie = Movie.new(movie_params)
